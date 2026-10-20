@@ -10,3 +10,9 @@ __pycache__/
 
 # Test tool cache
 .pytest_cache/
+
+# Data files: too large for GitHub, and licensed data is linked, not copied
+data/raw/
+data/processed/
+*.db
+*.sqlite
