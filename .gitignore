@@ -1,0 +1,12 @@
+# Virtual environment (your private Python setup)
+.venv/
+
+# Python's automatic cache files
+__pycache__/
+*.pyc
+
+# Secrets such as API keys (we'll use this later)
+.env
+
+# Test tool cache
+.pytest_cache/
