@@ -26,3 +26,18 @@ def extract_skills(text):
         if re.search(pattern, text, flags=re.IGNORECASE):
             found.add(skill)
     return found
+
+
+def count_skills(descriptions):
+    """Count how many postings mention each skill.
+
+    descriptions: a pandas Series of job description texts.
+    Returns a dictionary like {"Python": 120, "SQL": 95, ...}.
+    """
+    counts = {skill: 0 for skill in SKILL_PATTERNS}
+
+    for text in descriptions:
+        for skill in extract_skills(text):
+            counts[skill] += 1
+
+    return counts
