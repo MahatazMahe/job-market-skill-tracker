@@ -2,7 +2,7 @@ import pandas as pd
 
 from src.data_loader import get_data_directory
 
-REQUIRED_COLUMNS = ["job_id", "title", "description", "location"]
+REQUIRED_COLUMNS = ["job_id", "company_name", "title", "description", "location"]
 
 
 def get_postings_path():
