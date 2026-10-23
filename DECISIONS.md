@@ -14,3 +14,9 @@ Jooble gave me a free key with a limit of 500 requests. My first test, "data eng
 
 ## My plan
 Build everything on the Kaggle data first, since it's big enough to test properly. Then run the same code on the small Jooble sample and show it as a UAE snapshot, saying clearly that it's small. I won't mix the two results together. I may try another UAE source later.
+
+## Repeated postings
+15,638 of 123,849 rows (about 12.6%) were the same company repeating the same description. I flag them instead of deleting them. Removing them changed the percentages by up to about 2.5 points but didn‘t change the top 4 skills.
+
+## Which postings count as relevant
+I count only postings whose title looks like a data, AI or software role. At first that gave 3,468. I found that it missed “Full Stack Engineer“ ,added a few words, and now get 4,031. It‘s approximate: it can still miss some roles.
