@@ -2,11 +2,18 @@
 
 This is my first real Python project. I'm learning data engineering, and I wanted something that works on real data instead of a tutorial. The idea is simple: take a pile of job postings, find which skills they mention, and count them.
 
-It's not finished. Right now it runs on a Kaggle dataset that is mostly US jobs. I wanted UAE data, but I couldn't find enough of it yet (more on that below).
+I stopped at a working version on purpose, because I want to start the next project. What I didn't get to is listed at the end.
+
+It runs on a Kaggle dataset that is mostly US jobs. I wanted UAE data, but I couldn't find enough of it (more on that below).
 
 ## What it does
 
-It reads the postings from a CSV file and marks the ones where a company posted the same text more than once. Then it keeps the jobs whose title sounds like data, AI or software work, and looks for 10 skills in the descriptions (Python, SQL, AWS and so on). At the end it prints how many jobs mention each skill.
+Two scripts, one after the other:
+
+1. `build_database.py` reads the postings from a CSV file. It marks the ones where a company posted the same text more than once, keeps the jobs whose title sounds like data, AI or software work, and looks for 10 skills in the descriptions (Python, SQL, AWS and so on). Everything goes into a SQLite database.
+2. `main.py` reads that database and prints how many jobs mention each skill.
+
+I checked the database by asking it the same question I had already answered with pandas. The counts matched exactly.
 
 ## Results
 
@@ -41,19 +48,32 @@ On Windows, in PowerShell:
 python -m venv .venv
 .venv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
+python build_database.py
 python main.py
 ```
 
-Tests run with `pytest`.
+`build_database.py` takes about a minute. It makes `data/processed/jobs.db` and deletes the old one first, so every run starts clean. The database isn't in the repo because anyone can rebuild it.
+
+Tests run with `python -m pytest` (28 tests).
+
+### Optional: the Jooble UAE sample
+
+`collect_jooble.py` searches the Jooble API for UAE jobs and saves them to `data/raw/jooble_uae.json`. It needs a free API key in a file called `.env`:
+
+```
+JOOBLE_API_KEY=your-key-here
+```
+
+The script asks you to type `yes` before it sends anything, because the key has a request limit. The key and the collected file are not in the repo.
 
 ## Things that don't work well yet
 
-- The dataset has no UAE jobs. I searched for Dubai, Abu Dhabi, Sharjah and a few other spellings and got zero.
+- The Kaggle dataset has no UAE jobs. I searched for Dubai, Abu Dhabi, Sharjah and a few other spellings and got zero.
+- I collected a small UAE sample from Jooble (81 unique jobs, 24 Oct 2026), but I didn't use it for skill percentages. The snippets are only 256 to 280 characters and centred on my search words, so I would mostly be counting my own searches. Three companies (Bybit, Mastercard and Binance) make up 83% of the jobs, and only 1 job showed a salary. `DECISIONS.md` has the details.
 - Skills are found with simple text patterns, so some get missed. "PostgreSQL" doesn't count as SQL, for example.
 - The job title filter only looks for certain words, so it will skip some relevant jobs.
-- I tried the Jooble API for UAE jobs. It only gave me a few dozen per keyword, and only a short snippet of each, which isn't enough for real conclusions.
 - I used an AI assistant to help me learn and debug along the way.
 
-## What's next
+## Where I stopped
 
-Try the same code on the small UAE sample (and say clearly that it's small), store the results in SQLite, and add more skills and tests.
+Things I didn't build: more skills, a source of full UAE job descriptions, an API, a dashboard, Docker and automatic tests on GitHub. I'm moving on to the next project, where I'll learn FastAPI, Docker and CI.
